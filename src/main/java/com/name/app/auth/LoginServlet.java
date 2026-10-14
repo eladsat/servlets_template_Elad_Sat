@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("username") != null) {
-            response.sendRedirect(request.getContextPath() + "/home");
+            response.sendRedirect(request.getContextPath() + "/my-books");
             return;
         }
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userId", auth.id);
             session.setAttribute("role", auth.role);
             recordLogin(username, auth.role);
-            response.sendRedirect(request.getContextPath() + "/home");
+            response.sendRedirect(request.getContextPath() + "/my-books");
         } else {
             request.setAttribute("error", "שם משתמש או סיסמה שגויים");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
