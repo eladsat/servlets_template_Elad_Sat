@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Protects any request under /home, /messi, /ronaldo — redirects to /login
- * if there is no authenticated session.
- */
-@WebFilter(urlPatterns = {"/home", "/messi", "/ronaldo", "/history"})
+@WebFilter(urlPatterns = {"/home", "/messi", "/ronaldo", "/history", "/my-books"})
 public class AuthFilter implements Filter {
 
     @Override

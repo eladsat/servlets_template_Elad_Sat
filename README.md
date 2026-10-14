@@ -106,7 +106,7 @@ Browser → POST /login  (username=user, password=user)
    → Browser follows redirect → GET /home
 ```
 
-If credentials are wrong: `authenticate()` returns `null`, `request.setAttribute("error", ...)` is set, and the request is **forwarded** (not redirected) back to `login.jsp`, which prints the error message.
+If credentials are wrong: `authenticate()` returns `null`, `request.setAttribute("error", ...)` is set, and the request is **forwarded** (not redirected) back to `register.jsp`, which prints the error message.
 
 ### 3. `GET /home` (same pattern for `/messi`, `/ronaldo`)
 

@@ -11,21 +11,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    // Hardcoded credentials -> role
-    private static final String ADMIN_USER = "admin";
-    private static final String ADMIN_PASS = "admin";
-    private static final String USER_USER = "user";
-    private static final String USER_PASS = "user";
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // If already logged in, skip straight to home
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("username") != null) {
             response.sendRedirect(request.getContextPath() + "/home");
@@ -41,29 +35,52 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        String role = authenticate(username, password);
+        AuthResult auth = authenticate(username, password);
 
-        if (role != null) {
+        if (auth != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username);
-            session.setAttribute("role", role);
-            recordLogin(username, role);
+            session.setAttribute("userId", auth.id);
+            session.setAttribute("role", auth.role);
+            recordLogin(username, auth.role);
             response.sendRedirect(request.getContextPath() + "/home");
         } else {
-            request.setAttribute("error", "Invalid username or password");
+            request.setAttribute("error", "שם משתמש או סיסמה שגויים");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }
 
-    private String authenticate(String username, String password) {
+    private static class AuthResult {
+        int id;
+        String role;
+        AuthResult(int id, String role) {
+            this.id = id;
+            this.role = role;
+        }
+    }
+
+    private AuthResult authenticate(String username, String password) {
         if (username == null || password == null) {
             return null;
         }
-        if (ADMIN_USER.equals(username) && ADMIN_PASS.equals(password)) {
-            return "admin";
-        }
-        if (USER_USER.equals(username) && USER_PASS.equals(password)) {
-            return "user";
+
+        String sql = "SELECT id, password FROM users WHERE username = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String dbPassword = rs.getString("password");
+                    if (dbPassword.equals(password)) {
+                        int id = rs.getInt("id");
+                        String role = "admin".equals(username) ? "admin" : "user";
+                        return new AuthResult(id, role);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -77,7 +94,6 @@ public class LoginServlet extends HttpServlet {
             ps.setString(2, role);
             ps.executeUpdate();
         } catch (SQLException e) {
-            // Don't block login if logging fails — just log the error server-side
             e.printStackTrace();
         }
     }
