@@ -23,7 +23,7 @@
     <h2>הספרים האישיים של: <%= session.getAttribute("username") %></h2>
 
     <h3>הוסף ספר חדש לרשימה שלך</h3>
-    <form action="my-books" method="post" accept-charset="UTF-8">
+    <form action="my-books" method="post">
         <label>שם הספר:</label>
         <input type="text" name="title" required>
 
