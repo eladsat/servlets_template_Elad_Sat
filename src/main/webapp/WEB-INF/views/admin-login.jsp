@@ -25,7 +25,7 @@
         <input type="password" name="adminPassword" required>
         <button type="submit">התחבר כמנהל</button>
     </form>
-    <a class="back" href="my-books">← חזרה</a>
+    <a class="back" href="login">← חזרה להתחברות</a>
 </div>
 </body>
 </html>
