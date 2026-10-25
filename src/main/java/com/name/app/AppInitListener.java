@@ -18,27 +18,22 @@ public class AppInitListener implements ServletContextListener {
         try (Connection conn = DatabaseManager.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // טבלת הודעות קיימת
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS messages (" +
-                            "  id    INT AUTO_INCREMENT PRIMARY KEY," +
-                            "  text  VARCHAR(255) NOT NULL" +
+                            "  id   INT AUTO_INCREMENT PRIMARY KEY," +
+                            "  text VARCHAR(255) NOT NULL" +
                             ")"
             );
 
-            // טבלת היסטוריית התחברויות קיימת
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS login_history (" +
-                            "  id         INT AUTO_INCREMENT PRIMARY KEY," +
-                            "  username   VARCHAR(50) NOT NULL," +
-                            "  role       VARCHAR(20) NOT NULL," +
+                            "  id          INT AUTO_INCREMENT PRIMARY KEY," +
+                            "  username  VARCHAR(50) NOT NULL," +
+                            "  role      VARCHAR(20) NOT NULL," +
                             "  login_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                             ")"
             );
 
-            // --- טבלאות חדשות למערכת הספרייה ---
-
-            // 1. טבלת משתמשים
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS users (" +
                             "  id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -47,7 +42,6 @@ public class AppInitListener implements ServletContextListener {
                             ")"
             );
 
-            // 2. טבלת ספרים
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS books (" +
                             "  id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -56,7 +50,6 @@ public class AppInitListener implements ServletContextListener {
                             ")"
             );
 
-            // הוספת ספרים התחלתיים לדוגמה (יתוספו רק אם הטבלה ריקה)
             stmt.execute(
                     "INSERT INTO books (title, author) " +
                             "SELECT 'הארי פוטר', 'ג.ק. רולינג' WHERE NOT EXISTS (SELECT 1 FROM books);"
@@ -70,7 +63,6 @@ public class AppInitListener implements ServletContextListener {
                             "SELECT 'הנסיך הקטן', 'אנטואן דה סנט-אכזופרי' WHERE NOT EXISTS (SELECT 1 FROM books WHERE title = 'הנסיך הקטן');"
             );
 
-            // 3. טבלת קשר: איזה משתמש לקח איזה ספר
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS user_books (" +
                             "  id INT AUTO_INCREMENT PRIMARY KEY," +

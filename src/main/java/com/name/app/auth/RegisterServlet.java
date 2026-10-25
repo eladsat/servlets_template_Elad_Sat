@@ -42,12 +42,10 @@ public class RegisterServlet extends HttpServlet {
             ps.setString(2, password);
             ps.executeUpdate();
 
-            // לאחר הרשמה מוצלחת, נעביר את המשתמש לעמוד ההתחברות
             response.sendRedirect(request.getContextPath() + "/login");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // אם שם המשתמש כבר קיים בבסיס הנתונים (UNIQUE)
             request.setAttribute("error", "שם המשתמש כבר תפוס, בחר שם אחר");
             request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
         }

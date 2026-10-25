@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>לוח בקרה - ניהול ספרייה</title>
+    <title>לוח בקרה ניהול ספרייה</title>
     <style>
         body { font-family: Arial, sans-serif; direction: rtl; text-align: right; background-color: #f4f4f9; padding: 40px; }
         .container { max-width: 750px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
@@ -24,7 +24,6 @@
 <div class="container">
     <h2>לוח בקרה למנהל מערכת 📊</h2>
     <p>סקירה של כל המשתמשים הרשומים והספרים המשויכים אליהם:</p>
-
     <table>
         <tr>
             <th>שם משתמש</th>
@@ -67,7 +66,6 @@
         </tr>
         <% } %>
     </table>
-
     <a class="logout" href="my-books">← חזרה לעמוד הראשי</a>
 </div>
 </body>

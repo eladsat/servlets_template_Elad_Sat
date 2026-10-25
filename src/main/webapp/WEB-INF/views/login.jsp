@@ -34,7 +34,6 @@
         <button type="submit">התחבר</button>
     </form>
 
-    <!-- כפתור כניסה לניהול -->
     <a href="admin-login" class="admin-btn">כניסה לניהול 🔐</a>
 
     <a href="register" class="register-link">אין לך חשבון עדיין? הירשם כאן</a>

@@ -83,7 +83,7 @@ public class AdminServlet extends HttpServlet {
 
         if ("/admin-login".equals(path)) {
             String password = request.getParameter("adminPassword");
-            if ("אין על קליין".equals(password)) {
+            if ("איןעלקליין".equals(password)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("isAdmin", true);
                 response.sendRedirect(request.getContextPath() + "/admin-dashboard");
@@ -103,14 +103,12 @@ public class AdminServlet extends HttpServlet {
                 try {
                     int bookId = Integer.parseInt(bookIdStr);
                     try (Connection conn = DatabaseManager.getConnection()) {
-                        // מחיקת הקשר מטבלת הקישור
                         String deleteLinks = "DELETE FROM user_books WHERE book_id = ?";
                         try (PreparedStatement ps1 = conn.prepareStatement(deleteLinks)) {
                             ps1.setInt(1, bookId);
                             ps1.executeUpdate();
                         }
 
-                        // מחיקת הספר מטבלת הספרים הכללית
                         String deleteBook = "DELETE FROM books WHERE id = ?";
                         try (PreparedStatement ps2 = conn.prepareStatement(deleteBook)) {
                             ps2.setInt(1, bookId);

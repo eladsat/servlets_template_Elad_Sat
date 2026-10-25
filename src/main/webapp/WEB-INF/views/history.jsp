@@ -17,7 +17,6 @@
 <body>
 <div class="container">
     <h2>היסטוריית התחברויות למערכת</h2>
-
     <table>
         <tr>
             <th>שם משתמש</th>
@@ -43,7 +42,6 @@
         </tr>
         <% } %>
     </table>
-
     <a class="back-link" href="home">← חזרה לדף הבית</a>
 </div>
 </body>
